@@ -4,7 +4,7 @@
 CREATE TABLE claims_data (
     client_id INT,
     Claim_id INT,
-    claim_date VARCHAR(50),
+    claim_date VARCHAR(50),   -- if use DATE type need to change date data format to YYYY-MM-DD
     claim_amt DECIMAL(18, 2),
     car_type VARCHAR(50)
 );
