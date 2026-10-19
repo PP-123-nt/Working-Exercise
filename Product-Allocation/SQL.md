@@ -41,12 +41,9 @@ INSERT INTO claims_data (client_id, Claim_id, claim_date, claim_amt, car_type) V
 WITH ClientStats AS (
     SELECT 
         client_id, Claim_id, car_type, claim_amt,
-        SUM(CASE WHEN car_type = 'NA' THEN claim_amt ELSE 0 END) 
-            OVER (PARTITION BY client_id) AS total_na_amt,
-        SUM(CASE WHEN car_type != 'NA' THEN claim_amt ELSE 0 END) 
-            OVER (PARTITION BY client_id) AS total_valid_amt,
-        COUNT(CASE WHEN car_type != 'NA' THEN 1 END) 
-            OVER (PARTITION BY client_id) AS valid_claim_count
+        SUM(CASE WHEN car_type = 'NA' THEN claim_amt ELSE 0 END) OVER (PARTITION BY client_id) AS total_na_amt,
+        SUM(CASE WHEN car_type != 'NA' THEN claim_amt ELSE 0 END) OVER (PARTITION BY client_id) AS total_valid_amt,
+        COUNT(CASE WHEN car_type != 'NA' THEN 1 END) OVER (PARTITION BY client_id) AS valid_claim_count
     FROM claims_data
 )
 SELECT 
