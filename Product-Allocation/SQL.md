@@ -51,11 +51,11 @@ WITH ClientStats AS (
 )
 SELECT 
     client_id, Claim_id, car_type, claim_amt,
-    CAST(          -- Wrap the CASE statement in a CAST to force 2 decimal places
+    CAST(                                                 -- Wrap the CASE statement in a CAST to force 2 decimal places
         CASE 
-            WHEN car_type != 'NA' AND valid_claim_count > 0 AND total_na_amt > 0       -- Rule: Distribute to valid claims
+            WHEN car_type != 'NA' AND valid_claim_count > 0 AND total_na_amt > 0     -- Rule: Distribute to valid claims
                 THEN claim_amt + (claim_amt / total_valid_amt) * total_na_amt
-            WHEN car_type = 'NA' AND valid_claim_count > 0 AND total_na_amt > 0        -- Rule: Zero out the NA claim if it was distributed
+            WHEN car_type = 'NA' AND valid_claim_count > 0 AND total_na_amt > 0      -- Rule: NA claim = 0 if distributed
                 THEN 0 
             ELSE claim_amt    -- Rule: Keep original amount
         END AS DECIMAL(18, 2)
@@ -64,26 +64,29 @@ FROM ClientStats
 ORDER BY client_id, Claim_id;
 ```
 
-| client_id | Claim_id | car_type | claim_amt | Amt_Allocation |
-| :--- | :--- | :--- | ---: | ---: |
-| 1 | 169535646 | Truck | $532.00 | $549.93 |
-| 1 | 734265621 | Van | $5,733.00 | $5,926.25 |
-| 1 | 747557690 | Car | $677.00 | $699.82 |
-| 1 | 847557635 | NA | $234.00 | $0 |
-| 2 | 166535746 | NA | $332.00 | $332.00 |
-| 2 | 235265625 | NA | $733.00 | $733.00 |
-| 3 | 697949195 | Van | $623.00 | $1,310.80 |
-| 3 | 797670195 | NA | $2,314.00 | $0 |
-| 3 | 797969175 | Van | $907.00 | $1,908.33 |
-| 3 | 872231801 | Car | $566.00 | $1,190.87 |
-| 4 | 971694618 | Truck | $788.00 | $788.00 |
-| 4 | 991694620 | Van | $4,543.00 | $4,543.00 |
-| 6 | 215265656 | Van | $888.00 | $4,695.00 |
-| 6 | 275330646 | NA | $1,332.00 | $0 |
-| 6 | 635265643 | NA | $2,475.00 | $0 |
-| 10 | 971696623 | NA | $432.00 | $432.00 |
-| 11 | 268535746 | Truck | $5,232.00 | $5,565.00 |
-| 11 | 334265625 | NA | $333.00 | $0 |
+
+| client_id | Claim_id | car_type | claim_amt | Amt Allocation | &nbsp; | total_na_amt | total_valid_amt | valid_claim_count |
+| :--- | :--- | :--- | ---: | ---: | :---: | ---: | ---: | ---: |
+| 1 | 169535646 | Truck | $532.00 | $549.93 | &nbsp; | $234.00 | $6,942.00 | 3 |
+| 1 | 734265621 | Van | $5,733.00 | $5,926.25 | &nbsp; | $234.00 | $6,942.00 | 3 |
+| 1 | 747557690 | Car | $677.00 | $699.82 | &nbsp; | $234.00 | $6,942.00 | 3 |
+| 1 | 847557635 | NA | $234.00 | $0 | &nbsp; | $234.00 | $6,942.00 | 3 |
+| 3 | 697949195 | Van | $623.00 | $1,310.80 | &nbsp; | $2,314.00 | $2,096.00 | 3 |
+| 3 | 797969175 | Van | $907.00 | $1,908.33 | &nbsp; | $2,314.00 | $2,096.00 | 3 |
+| 3 | 797670195 | NA | $2,314.00 | $0 | &nbsp; | $2,314.00 | $2,096.00 | 3 |
+| 3 | 872231801 | Car | $566.00 | $1,190.87 | &nbsp; | $2,314.00 | $2,096.00 | 3 |
+| 4 | 971694618 | Truck | $788.00 | $788.00 | &nbsp; | $0 | $5,331.00 | 2 |
+| 4 | 991694620 | Van | $4,543.00 | $4,543.00 | &nbsp; | $0 | $5,331.00 | 2 |
+| 10 | 971696623 | NA | $432.00 | $432.00 | &nbsp; | $432.00 | $0 | 0 |
+| 11 | 268535746 | Truck | $5,232.00 | $5,565.00 | &nbsp; | $333.00 | $5,232.00 | 1 |
+| 11 | 334265625 | NA | $333.00 | $0 | &nbsp; | $333.00 | $5,232.00 | 1 |
+| 2 | 166535746 | NA | $332.00 | $332.00 | &nbsp; | $1,065.00 | $0 | 0 |
+| 2 | 235265625 | NA | $733.00 | $733.00 | &nbsp; | $1,065.00 | $0 | 0 |
+| 6 | 275330646 | NA | $1,332.00 | $0 | &nbsp; | $3,807.00 | $888.00 | 1 |
+| 6 | 635265643 | NA | $2,475.00 | $0 | &nbsp; | $3,807.00 | $888.00 | 1 |
+| 6 | 215265656 | Van | $888.00 | $4,695.00 | &nbsp; | $3,807.00 | $888.00 | 1 |
+
+
 
 
 
