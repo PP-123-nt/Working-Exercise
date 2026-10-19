@@ -2,10 +2,10 @@
 
 ```sql
 CREATE TABLE claims_data (
-    client_id BIGINT,
-    Claim_id BIGINT,
+    client_id INT,
+    Claim_id INT,
     claim_date VARCHAR(50),
-    claim_amt BIGINT,
+    claim_amt DECIMAL(18, 2),
     car_type VARCHAR(50)
 );
 ```
@@ -54,7 +54,7 @@ SELECT
     CAST(          -- Wrap the CASE statement in a CAST to force 2 decimal places
         CASE 
             WHEN car_type != 'NA' AND valid_claim_count > 0 AND total_na_amt > 0       -- Rule: Distribute to valid claims
-                THEN claim_amt + (claim_amt::numeric / total_valid_amt) * total_na_amt
+                THEN claim_amt + (claim_amt / total_valid_amt) * total_na_amt
             WHEN car_type = 'NA' AND valid_claim_count > 0 AND total_na_amt > 0        -- Rule: Zero out the NA claim if it was distributed
                 THEN 0 
             ELSE claim_amt    -- Rule: Keep original amount
