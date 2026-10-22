@@ -95,3 +95,22 @@ JOIN regions    r  ON sr.region_id = r.region_id
 JOIN customers  c  ON d.customer_id = c.customer_id
 JOIN products   p  ON d.product_id  = p.product_id;
   ```
+
+  ```sql
+-- Aggregated view without deal id details
+-- useful when data volume > 1M rows and business only look at big picture
+CREATE VIEW v_sales_fact AS
+SELECT 
+    year(close_date) AS sales_year,
+    quarter(close_date) AS sales_quarter,
+    region_name,
+    rep_name,
+    product_name,
+    customer_name,
+    status,                                   -- 1. Added the status column here
+    SUM(gross_revenue) AS total_gross,
+    SUM(discount_value) AS total_discount_cost,
+    SUM(net_revenue) AS total_net
+FROM v_deal_enriched
+GROUP BY 1, 2, 3, 4, 5, 6, 7;                 -- 2. Added position '7' here
+  ```
