@@ -1,3 +1,5 @@
+## **Create Tables**
+  
   ```sql
 -- create tables for regional_fbp.db
 CREATE TABLE regions (
@@ -46,7 +48,12 @@ CREATE TABLE deals (
   net_revenue   DECIMAL(14,2) NOT NULL,
   status        VARCHAR NOT NULL
 );
+  ```
 
+
+## **Import data from csv**
+
+  ```sql
 -- copy raw data from csv into tables created
 COPY regions FROM 'C:\Users\Yvonne\OneDrive\Desktop\NTU DSAI\Mock Real Life Example\Deepseek\regions.csv' (HEADER);
 COPY sales_reps FROM 'C:\Users\Yvonne\OneDrive\Desktop\NTU DSAI\Mock Real Life Example\Deepseek\sales_reps.csv' (HEADER);
@@ -54,8 +61,12 @@ COPY customers  FROM 'C:\Users\Yvonne\OneDrive\Desktop\NTU DSAI\Mock Real Life E
 COPY products   FROM 'C:\Users\Yvonne\OneDrive\Desktop\NTU DSAI\Mock Real Life Example\Deepseek\products.csv'   (HEADER);
 COPY budget     FROM 'C:\Users\Yvonne\OneDrive\Desktop\NTU DSAI\Mock Real Life Example\Deepseek\budget.csv'     (HEADER);
 COPY deals      FROM 'C:\Users\Yvonne\OneDrive\Desktop\NTU DSAI\Mock Real Life Example\Deepseek\deals.csv'      (HEADER);
+  ```
 
 
+## **Create View**
+
+  ```sql
 -- Deal-level analytical view. Deliberately does NOT include budget columns:
 -- joining budget onto deals fans out budget_revenue across every deal row
 -- and silently multiplies the plan figure. Budget is joined separately.
