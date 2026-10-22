@@ -1,5 +1,6 @@
 ## Create view to store global average discount rate by product
 
+From Q1, we identified almost 80% gap in 2024-Q3 is driven by South region. Now we are looking into the gap by analyzing discount %.
   ```sql
 CREATE VIEW v_product_benchmarks AS
 WITH region_product_actuals AS (
