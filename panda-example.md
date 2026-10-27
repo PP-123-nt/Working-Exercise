@@ -100,31 +100,31 @@ If you want to use the new Python in Excel feature (available in Microsoft 365),
 
 To make it work, you have to change how the data gets in and out of Python:
 
-Input: Load the data into Excel sheets first, then use Excel's xl() function to bring it into Python.
+1. Input: Load the data into Excel sheets first, then use Excel's xl() function to bring it into Python.
 
-Output: Let the Python code output the final table directly into the Excel grid, and then you manually save the file.
+2. Output: Let the Python code output the final table directly into the Excel grid, and then you manually save the file.
 
 Here is the exact step-by-step guide to doing this in Excel:
 
 ### 📥 Step 1: Load Raw Data into Excel Sheets
 Since Python in Excel can't read the local folder, you need to put the data inside the workbook.
 
-Open a blank Excel workbook.
+1. Open a blank Excel workbook.
 
-Go to Data > Get Data > From File > From Text/CSV. Select your sales_data.csv. When prompted, click Load.
+2. Go to Data > Get Data > From File > From Text/CSV. Select your sales_data.csv. When prompted, click Load.
 
-In the new sheet, click anywhere inside the data and press Ctrl + T to make it a Table. Rename the Table (in the Table Design tab on the top ribbon) to SalesData.
+3. In the new sheet, click anywhere inside the data and press Ctrl + T to make it a Table. Rename the Table (in the Table Design tab on the top ribbon) to SalesData.
 
-Go to Data > Get Data > From File > From Excel Workbook. Select marketing_spend.xlsx and click Load.
+4. Go to Data > Get Data > From File > From Excel Workbook. Select marketing_spend.xlsx and click Load.
 
-Make that a Table too (Ctrl + T) and rename it to MarketingData.
+5. Make that a Table too (Ctrl + T) and rename it to MarketingData.
 
 ### 🐍 Step 2: Write the Python Code in Excel
-Click on an empty cell in a new sheet (e.g., cell A1).
+1. Click on an empty cell in a new sheet (e.g., cell A1).
 
-On the Formulas tab, click Python (or type =PY().
+2. On the Formulas tab, click Python (or type =PY().
 
-In the formula bar, paste the following modified code. Notice how we use xl() instead of pd.read_csv() and remove the .to_excel() step at the end.
+3. In the formula bar, paste the following modified code. Notice how we use xl() instead of pd.read_csv() and remove the .to_excel() step at the end.
 
 ```sql
 import pandas as pd
@@ -165,19 +165,19 @@ report = report.sort_values(by='roi_ranking', ascending=True).reset_index(drop=T
 # 9. Output to the grid
 report
 ```
-Press Ctrl + Enter to run the code.
+4. Press Ctrl + Enter to run the code.
 
 ### 💾 Step 3: Export to the Same Folder
 Once you run the code, Python will output the final DataFrame and "spill" it into the Excel grid as a table.
 
-Select the spilled table.
+1. Select the spilled table.
 
-Right-click and choose Convert to Data Range (this makes it easier to format).
+2. Right-click and choose Convert to Data Range (this makes it easier to format).
 
-Go to File > Save As "Q3_Sales_and_Marketing_Performance".
+3. Go to File > Save As "Q3_Sales_and_Marketing_Performance".
 
 
 ### 🔄 Step 4: Refresh
-Once raw data files are updated with latest number, open "Q3_Sales_and_Marketing_Performance". 
+1. Once raw data files are updated with latest number, open "Q3_Sales_and_Marketing_Performance". 
 
-Go to Data > Refresh All > Refresh All
+2. Go to Data > Refresh All > Refresh All
